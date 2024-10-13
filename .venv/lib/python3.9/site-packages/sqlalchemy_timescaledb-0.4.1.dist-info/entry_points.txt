@@ -1,0 +1,4 @@
+[sqlalchemy.dialects]
+timescaledb = sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect
+timescaledb.asyncpg = sqlalchemy_timescaledb.dialect:TimescaledbAsyncpgDialect
+timescaledb.psycopg2 = sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect

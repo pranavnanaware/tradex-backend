@@ -1,0 +1,22 @@
+[2024-10-12 18:10:41,931] INFO in helpers: plpgsql: 1.0
+[2024-10-12 18:10:41,933] INFO in helpers: timescaledb_toolkit: 1.18.0
+[2024-10-12 18:10:41,933] INFO in helpers: pg_stat_statements: 1.10
+[2024-10-12 18:10:41,933] INFO in helpers: timescaledb: 2.16.1
+[2024-10-12 18:17:25,227] INFO in __init__: YourApp startup
+[2024-10-12 18:17:25,900] INFO in helpers: Database extensions installed:
+[2024-10-12 18:17:25,901] INFO in helpers: plpgsql: 1.0
+[2024-10-12 18:17:25,901] INFO in helpers: timescaledb_toolkit: 1.18.0
+[2024-10-12 18:17:25,901] INFO in helpers: pg_stat_statements: 1.10
+[2024-10-12 18:17:25,901] INFO in helpers: timescaledb: 2.16.1
+[2024-10-12 18:17:27,140] INFO in __init__: YourApp startup
+[2024-10-12 18:17:27,824] INFO in helpers: Database extensions installed:
+[2024-10-12 18:17:27,825] INFO in helpers: plpgsql: 1.0
+[2024-10-12 18:17:27,825] INFO in helpers: timescaledb_toolkit: 1.18.0
+[2024-10-12 18:17:27,825] INFO in helpers: pg_stat_statements: 1.10
+[2024-10-12 18:17:27,825] INFO in helpers: timescaledb: 2.16.1
+[2024-10-12 18:17:29,212] INFO in __init__: YourApp startup
+[2024-10-12 18:17:29,912] INFO in helpers: Database extensions installed:
+[2024-10-12 18:17:29,913] INFO in helpers: plpgsql: 1.0
+[2024-10-12 18:17:29,913] INFO in helpers: timescaledb_toolkit: 1.18.0
+[2024-10-12 18:17:29,913] INFO in helpers: pg_stat_statements: 1.10
+[2024-10-12 18:17:29,914] INFO in helpers: timescaledb: 2.16.1

@@ -1,0 +1,9 @@
+Flask
+SQLAlchemy
+psycopg2
+sqlalchemy-timescaledb
+flask-cors
+flask-migrate
+python-dotenv
+flask-jwt-extended
+yfinance
