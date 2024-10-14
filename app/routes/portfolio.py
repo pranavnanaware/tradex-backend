@@ -16,10 +16,11 @@ portfolio_bp = Blueprint('portfolio', __name__)
 @portfolio_bp.route('/portfolio', methods=['GET'])
 @jwt_required()
 def view_portfolio():
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()  # Get the user ID from the JWT token
 
-    user = User.query.get(user_id)
+    user = User.query.get(user_id)  # Fetch the user from the database
     if not user:
+        # Return error if user not found
         return jsonify({'error': 'User not found'}), 404
 
     # Fetch all portfolio entries for the user
@@ -28,15 +29,20 @@ def view_portfolio():
     squared_off_positions = []
 
     for entry in portfolio_entries:
+        # Get the current price of the stock
         current_price = get_current_price(entry.ticker)
         if current_price is None:
+            # Fallback to average price if current price is not available
             current_price = entry.average_price
 
+        # Calculate total value of the position
         total_value = entry.total_quantity * current_price
-        total_invested = entry.total_quantity * entry.average_price
+        total_invested = entry.total_quantity * \
+            entry.average_price  # Calculate total invested amount
+        # Calculate profit/loss in dollars
         profit_loss_dollars = total_value - total_invested
         profit_loss_percent = (
-            profit_loss_dollars / total_invested) * 100 if total_invested != 0 else 0
+            profit_loss_dollars / total_invested) * 100 if total_invested != 0 else 0  # Calculate profit/loss in percent
 
         # Fetch all transactions for this ticker
         transactions = Transaction.query.filter_by(
@@ -68,6 +74,7 @@ def view_portfolio():
         }
 
         if entry.total_quantity > 0:
+            # Add to portfolio if shares are still held
             portfolio.append(portfolio_data)
         else:
             # Only include necessary fields for squared off positions
@@ -82,7 +89,7 @@ def view_portfolio():
                 'transactions': transactions_list
             })
 
-    # (Optional) Include cash balance
+    # Prepare the response
     response = {
         'user_id': user_id,
         'portfolio': portfolio,
@@ -90,18 +97,20 @@ def view_portfolio():
     }
 
     if hasattr(user, 'cash_balance'):
+        # Include cash balance if available
         response['cash_balance'] = user.cash_balance
 
-    return jsonify(response), 200
+    return jsonify(response), 200  # Return the response as JSON
 
 
 @portfolio_bp.route('/analytics', methods=['GET'])
 @jwt_required()
 def view_analytics():
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()  # Get the user ID from the JWT token
 
-    user = User.query.get(user_id)
+    user = User.query.get(user_id)  # Fetch the user from the database
     if not user:
+        # Return error if user not found
         return jsonify({'error': 'User not found'}), 404
 
     # Fetch all portfolio entries for the user
@@ -132,15 +141,20 @@ def view_analytics():
     ]
 
     for entry in portfolio_entries:
+        # Get the current price of the stock
         current_price = get_current_price(entry.ticker)
         if current_price is None:
+            # Fallback to average price if current price is not available
             current_price = entry.average_price
 
-        total_entry_value = entry.total_quantity * current_price
-        total_invested = entry.total_quantity * entry.average_price
-        profit_loss_dollars = total_entry_value - total_invested
+        total_entry_value = entry.total_quantity * \
+            current_price  # Calculate total value of the position
+        total_invested = entry.total_quantity * \
+            entry.average_price  # Calculate total invested amount
+        profit_loss_dollars = total_entry_value - \
+            total_invested  # Calculate profit/loss in dollars
         profit_loss_percent = (
-            profit_loss_dollars / total_invested) * 100 if total_invested != 0 else 0
+            profit_loss_dollars / total_invested) * 100 if total_invested != 0 else 0  # Calculate profit/loss in percent
 
         # Update totals
         total_value += total_entry_value
@@ -202,6 +216,7 @@ def view_analytics():
         }
 
         if entry.total_quantity > 0:
+            # Add to portfolio if shares are still held
             portfolio.append(portfolio_data)
         else:
             # Only include necessary fields for squared off positions
@@ -245,6 +260,7 @@ def view_analytics():
             'value': portfolio_value_on_date
         })
 
+    # Prepare the response
     response = {
         'totalValue': total_value,
         'totalStocks': total_stocks,
@@ -259,6 +275,7 @@ def view_analytics():
     }
 
     if hasattr(user, 'cash_balance'):
+        # Include cash balance if available
         response['cash_balance'] = user.cash_balance
 
-    return jsonify(response), 200
+    return jsonify(response), 200  # Return the response as JSON

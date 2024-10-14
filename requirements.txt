@@ -3,7 +3,8 @@ SQLAlchemy
 psycopg2
 sqlalchemy-timescaledb
 flask-cors
-flask-migrate
+Flask-Migrate
 python-dotenv
 flask-jwt-extended
 yfinance
+psycopg2-binary

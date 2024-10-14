@@ -11,5 +11,6 @@ class Portfolio(db.Model):
     total_quantity = db.Column(db.Integer, nullable=False)
     average_price = db.Column(db.Float, nullable=False)
 
+    # Ensure that each user can only have one unique ticker in their portfolio
     __table_args__ = (db.UniqueConstraint(
         'user_id', 'ticker', name='_user_ticker_uc'),)

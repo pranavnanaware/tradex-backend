@@ -17,8 +17,6 @@ def fetch_ticker_details(ticker):
         stock = yf.Ticker(ticker)
         stock_info = stock.info
 
-        #
-
         return stock_info
 
     except Exception as e:

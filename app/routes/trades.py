@@ -59,6 +59,7 @@ def buy_stock():
             portfolio.total_quantity = new_total_quantity
             portfolio.average_price = new_average_price
         else:
+            # Create new portfolio entry if it doesn't exist
             portfolio = Portfolio(
                 user_id=user_id,
                 ticker=ticker.upper(),
@@ -115,6 +116,7 @@ def sell_stock():
         # Update Portfolio
         portfolio.total_quantity -= quantity
         if portfolio.total_quantity == 0:
+            # Remove portfolio entry if all stocks are sold
             db.session.delete(portfolio)
         else:
             # Average price remains unchanged on selling

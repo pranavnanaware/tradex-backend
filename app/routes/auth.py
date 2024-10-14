@@ -6,11 +6,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from ..extensions import db
 from ..models.user import User
 
+# Create a Blueprint for the authentication routes
 auth_bp = Blueprint('auth', __name__)
 
 # Registration Endpoint
-
-
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -19,6 +18,7 @@ def register():
     password = data.get('password')
     name = data.get('name')
 
+    # Check if all required fields are provided
     if not all([email, password, name]):
         return jsonify({"error": "All fields are required"}), 400
 
@@ -33,20 +33,18 @@ def register():
             email=email,
             name=name
         )
-        new_user.set_password(password)
+        new_user.set_password(password)  # Hash the password
 
-        db.session.add(new_user)
-        db.session.commit()
+        db.session.add(new_user)  # Add new user to the session
+        db.session.commit()  # Commit the session to the database
 
         return jsonify({"message": "User registered successfully"}), 201
 
     except SQLAlchemyError as e:
-        db.session.rollback()
+        db.session.rollback()  # Rollback the session in case of error
         return jsonify({"error": "Something went wrong"}), 500
 
 # Login Endpoint
-
-
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -54,12 +52,14 @@ def login():
     email = data.get('email')
     password = data.get('password')
 
+    # Check if both email and password are provided
     if not all([email, password]):
         return jsonify({"error": "Username and password are required"}), 400
 
     try:
         user = User.query.filter_by(email=email).first()
 
+        # Check if user exists and password is correct
         if not user or not user.check_password(password):
             return jsonify({"error": "Invalid username or password"}), 401
 
@@ -76,13 +76,13 @@ def login():
     except SQLAlchemyError as e:
         return jsonify({"error": "You need to sign-up"}), 500
 
-
+# Get User Endpoint
 @auth_bp.route('/user', methods=['GET'])
-@jwt_required()
+@jwt_required()  # Require a valid JWT token to access this route
 def get_user():
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()  # Get the user ID from the JWT token
 
-    user = User.query.get(user_id)
+    user = User.query.get(user_id)  # Query the user from the database
 
     if user:
         return jsonify({
@@ -93,12 +93,11 @@ def get_user():
     else:
         return jsonify({"error": "User not found"}), 404
 
-
 # Logout Endpoint
 @auth_bp.route('/logout', methods=['POST'])
-@jwt_required()
+@jwt_required()  # Require a valid JWT token to access this route
 def logout():
     response = make_response(jsonify({"message": "Logout successful"}), 200)
     print('logout')
-    unset_jwt_cookies(get_jwt_identity())
+    unset_jwt_cookies(get_jwt_identity())  # Unset the JWT cookies
     return response
